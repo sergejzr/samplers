@@ -6,7 +6,7 @@ Just start&nbsp;de.l3s.examples.SamplingBasedAveragerEx.java for an example
 
     //Example:
     double _error_ = 0.05, _confidence_ = 0.95;
-		SamplingBasedAverager SBA = new SamplingBasedAverager(_error_, _confidence_);
+		SamplingBasedAverager SBA = new SamplingBasedAverager(_error_, _confidence_, 1);
 
 
 		double average = SBA.randomSampling(new Sampler() {
