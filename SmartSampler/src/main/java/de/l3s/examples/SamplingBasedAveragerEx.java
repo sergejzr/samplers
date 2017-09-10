@@ -28,12 +28,12 @@ public class SamplingBasedAveragerEx {
 		// SamplingBasedAverager(_error_, _confidence_) - Estimate a value with
 		// at most _error_ % error guaranteed with at least _confidence_ %.
 		double _error_ = 0.05, _confidence_ = 0.95;
-		SamplingBasedAverager ABA = new SamplingBasedAverager(_error_, _confidence_);
+		SamplingBasedAverager SBA = new SamplingBasedAverager(_error_, _confidence_);
 
 		// Our playground range 0-N
 		final int N = 1000000000;
 
-		double average = ABA.randomSampling(new Sampler() {
+		double average = SBA.randomSampling(new Sampler() {
 			Random r = new Random();
 
 			public double sampleOne() throws InterruptedException {
@@ -53,9 +53,10 @@ public class SamplingBasedAveragerEx {
 		System.out.println();
 		System.out.println("              \t" + String.format("%10s", "Exact") + "\tEstimated");
 		System.out.println("Average       :\t" + String.format("%10s", (N / 2)) + "\t" + (int) (average));
+		System.out.println();
 		System.out.println("Error         :\t"
 				+ String.format("%10s", String.format("%.2f", ((Math.abs(average - (N / 2)) / (N / 2))) * 100)) + "\t"
-				+ String.format("%10s", String.format("%.2f", (ABA.getEstimatedError()) * 100)));
+				+ String.format("%.2f", (SBA.getEstimatedError()) * 100));
 		System.out.println("Operations    :\t" + String.format("%10s", N) + "\t" + samplerounds);
 		System.out.println("x times faster:\t" + String.format("%10s", 1) + "\t" + N / samplerounds);
 
