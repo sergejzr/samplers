@@ -66,8 +66,8 @@ public class SamplingBasedAveragerEx {
 		System.out.println("Error         :\t"
 				+ String.format("%10s", String.format("%.2f", ((Math.abs(average - (N / 2)) / (N / 2))) * 100)) + "\t"
 				+ String.format("%.2f", (SBA.getEstimatedError()) * 100));
-		System.out.println("Operations    :\t" + String.format("%10s", N) + "\t" + (samplerounds*2));
-		System.out.println("x times faster:\t" + String.format("%10s", 1) + "\t" + N / samplerounds);
+		System.out.println("Operations    :\t" + String.format("%10s", N) + "\t" + (samplerounds));
+		System.out.println("x times faster:\t" + String.format("%10s", 1) + "\t" + N / (samplerounds/2));
 		System.out.println();
 		System.out.print("Development of the sample error: ");
 		int step = sampleErrors.size() / 20;
