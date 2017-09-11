@@ -1,5 +1,6 @@
 package de.l3s.examples;
 
+import java.util.ArrayList;
 /**
  * This is an example usage of the class SamplingBasedAverager, that can efficiently compute an average statistics value from 
  * very large corpora.<br/>
@@ -19,16 +20,17 @@ import de.l3s.Sampler;
 import de.l3s.SamplingBasedAverager;
 
 public class SamplingBasedAveragerEx {
-	// Count the sampling rounds, just for fun/statistics. Don't need is in the
+	// Count the sampling rounds and gather stats about the sampling error, just for fun/statistics. Don't need is in the
 	// real task.
 	static int samplerounds = 0;
+	static ArrayList<Double> sampleErrors = new ArrayList<Double>();
 
 	public static void main(String[] args) {
 
 		// SamplingBasedAverager(_error_, _confidence_) - Estimate a value with
 		// at most _error_ % error guaranteed with at least _confidence_ %.
-		double _error_ = 0.05, _confidence_ = 0.95;
-		SamplingBasedAverager SBA = new SamplingBasedAverager(_error_, _confidence_);
+		double _error_ = 0.05, _confidence_ = 0.99;
+		final SamplingBasedAverager SBA = new SamplingBasedAverager(_error_, _confidence_);
 
 		// Our playground range 0-N
 		final int N = 1000000000;
@@ -37,12 +39,19 @@ public class SamplingBasedAveragerEx {
 			Random r = new Random();
 
 			public double sampleOne() throws InterruptedException {
-					samplerounds++;
 
-					// We are computing an average between 2 numbers here in the range (0-N]. Please
-					// note, the averager does not know our range
-					return (r.nextInt(N+1) + r.nextInt(N+1)) / 2;
+				if (SBA.getEstimatedError() != null) {
+					sampleErrors.add(SBA.getEstimatedError());
+				}
+				samplerounds++;
 				
+				// We are computing an average between 2 numbers here in the
+				// range (0-N]. 
+				double pairaverage=(r.nextInt(N + 1) + r.nextInt(N + 1)) / 2;
+				
+				//Please note, the averager does not know our range
+				return pairaverage;
+
 			}
 		});
 
@@ -57,8 +66,18 @@ public class SamplingBasedAveragerEx {
 		System.out.println("Error         :\t"
 				+ String.format("%10s", String.format("%.2f", ((Math.abs(average - (N / 2)) / (N / 2))) * 100)) + "\t"
 				+ String.format("%.2f", (SBA.getEstimatedError()) * 100));
-		System.out.println("Operations    :\t" + String.format("%10s", N) + "\t" + samplerounds);
+		System.out.println("Operations    :\t" + String.format("%10s", N * 2) + "\t" + samplerounds);
 		System.out.println("x times faster:\t" + String.format("%10s", 1) + "\t" + N / samplerounds);
+		System.out.println();
+		System.out.print("Development of the sample error: ");
+		int step = sampleErrors.size() / 20;
 
+		for (int i = 0; i < sampleErrors.size(); i++) {
+			if (i % step == 0) {
+				System.out.print(String.format("%.3f",sampleErrors.get(i)) + " ");
+			}
+		}
+		if(sampleErrors.size()>1)
+		System.out.print(String.format("%.3f",SBA.getEstimatedError()));
 	}
 }

@@ -141,6 +141,8 @@ public class SamplingBasedAverager {
 
 			rdj = stats.getMedian() / r1;
 
+			//Some statistician take here double standard deviation (stats.getStddev()*2)
+			//it would increase the number of required sample rounds by 2-3 and increase accuracy. you can play with it.
 			estimated_error = (stats.getStddev()) / (stats.getMedian());
 
 		} while (!interrupted && estimated_error > error);
