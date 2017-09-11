@@ -29,11 +29,11 @@ public class SamplingBasedAveragerEx {
 
 		// SamplingBasedAverager(_error_, _confidence_) - Estimate a value with
 		// at most _error_ % error guaranteed with at least _confidence_ %.
-		double _error_ = 0.05, _confidence_ = 0.99;
+		double _error_ = 0.05, _confidence_ = 0.95;
 		final SamplingBasedAverager SBA = new SamplingBasedAverager(_error_, _confidence_);
 
 		// Our playground range 0-N
-		final int N = 1000000000;
+		final int N = 100000000;
 
 		double average = SBA.randomSampling(new Sampler() {
 			Random r = new Random();
@@ -45,9 +45,9 @@ public class SamplingBasedAveragerEx {
 				}
 				samplerounds++;
 				
-				// We are computing an average between 2 numbers here in the
+				// We are computing random number from the 
 				// range (0-N]. 
-				double pairaverage=(r.nextInt(N + 1) + r.nextInt(N + 1)) / 2;
+				double pairaverage=r.nextInt(N + 1);
 				
 				//Please note, the averager does not know our range
 				return pairaverage;
@@ -56,7 +56,7 @@ public class SamplingBasedAveragerEx {
 		});
 
 		// Best printed as excel table :)
-		System.out.println("The average of the numbers of the range 0-" + N + ", estimation and statistics:");
+		System.out.println("The average of the numbers of the range (0-" + N + "], estimation and statistics:");
 		System.out.println("Computed estimation should have at most " + _error_ * 100 + "% error, with "
 				+ String.format("%.2f", _confidence_ * 100) + "% confidence");
 		System.out.println();
@@ -67,7 +67,7 @@ public class SamplingBasedAveragerEx {
 				+ String.format("%10s", String.format("%.2f", ((Math.abs(average - (N / 2)) / (N / 2))) * 100)) + "\t"
 				+ String.format("%.2f", (SBA.getEstimatedError()) * 100));
 		System.out.println("Operations    :\t" + String.format("%10s", N) + "\t" + (samplerounds));
-		System.out.println("x times faster:\t" + String.format("%10s", 1) + "\t" + N / (samplerounds/2));
+		System.out.println("x times faster:\t" + String.format("%10s", 1) + "\t" + N / (samplerounds));
 		System.out.println();
 		System.out.print("Development of the sample error: ");
 		int step = sampleErrors.size() / 20;
