@@ -7,8 +7,8 @@
 
 #ifndef SAMPLINGBASEDAVERAGER_H_
 #define SAMPLINGBASEDAVERAGER_H_
-#include "BasicStats.h"
-#include "Sampler.h"
+#include "../de.l3s/BasicStats.h"
+#include "../de.l3s/Sampler.h"
 
 class SamplingBasedAverager {
 public:
@@ -24,7 +24,7 @@ private:
 	double error, confidence, estimated_error;
 	int W;
 
-	BasicStats getStats(double* a, int r1);
+	BasicStats getStats(double* a, int len, int r1);
 };
 
 #endif /* SAMPLINGBASEDAVERAGER_H_ */

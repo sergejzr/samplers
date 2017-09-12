@@ -11,7 +11,7 @@
 class InterruptedException {
 public:
 	InterruptedException();
-	virtual ~InterruptedException();
+	virtual ~InterruptedException(){}
 };
 
 #endif /* INTERRUPTEDEXCEPTION_H_ */

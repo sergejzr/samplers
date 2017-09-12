@@ -5,11 +5,12 @@
  *      Author: zerr
  */
 
-#include "SamplingBasedAverager.h"
-#include "InterruptedException.h"
+#include "../de.l3s/SamplingBasedAverager.h"
+
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include "../de.l3s/InterruptedException.h"
 
 SamplingBasedAverager::SamplingBasedAverager() {
 	this->error = 0.05;
@@ -69,7 +70,7 @@ double SamplingBasedAverager::randomSampling(Sampler& s) {
 		// increase sample size by W
 		r1 += W;
 
-		BasicStats stats = getStats(jsSum, r1);
+		BasicStats stats = getStats(jsSum, r2, r1);
 
 		rdj = stats.getMedian() / r1;
 
@@ -88,7 +89,7 @@ double SamplingBasedAverager::getEstimatedError() {
 
 
 
-BasicStats SamplingBasedAverager::getStats(double* a, int r1) {
+BasicStats SamplingBasedAverager::getStats(double* a,  int len, int r1) {
 
 	double median = a[0], average;
 
@@ -96,17 +97,17 @@ BasicStats SamplingBasedAverager::getStats(double* a, int r1) {
 
 	double sum = 0.0;
 
-	int j = r1;
+	int j = len;
 	for (int i = 0; i < j; i++) {
 		double cur = a[i];
 		sum += cur;
 	}
-	average = sum / r1;
+	average = sum / len;
 
-	double mean = sum / (double) r1;
+	double mean = sum / (double) len;
 	double before = a[0];
 
-	int l = r1;
+	int l = len;
 
 	bool found = false;
 	for (int k = 0; k < l; k++) {
@@ -120,7 +121,7 @@ BasicStats SamplingBasedAverager::getStats(double* a, int r1) {
 	}
 
 	if (!found) {
-		median = a[r1 - 1];
+		median = a[len - 1];
 	}
 
 	double diff = 0;
@@ -128,7 +129,7 @@ BasicStats SamplingBasedAverager::getStats(double* a, int r1) {
 		double cur = a[i];
 		diff += pow(cur - average, 2);
 	}
-	diff = sqrt(diff / r1);
+	diff = sqrt(diff / len);
 
 	return  BasicStats(median, average, diff);
 

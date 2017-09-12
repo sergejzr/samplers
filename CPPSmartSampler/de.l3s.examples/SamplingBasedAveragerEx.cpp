@@ -5,9 +5,10 @@
  *      Author: zerr
  */
 
-#include "SamplingBasedAverager.h"
 #include <iostream>
 #include <cmath>
+
+#include "../de.l3s/SamplingBasedAverager.h"
 using namespace std;
 void println(std::string s = "") {
 	cout << s << endl;
