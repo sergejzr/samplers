@@ -16,7 +16,7 @@ SamplingBasedAverager::SamplingBasedAverager() {
 	this->error = 0.05;
 	this->confidence = 0.95;
 	this->W = 10;
-	this->estimated_error=0;
+	this->estimated_error=-1.;
 
 }
 
@@ -24,7 +24,7 @@ SamplingBasedAverager::SamplingBasedAverager(double error, double confidence) {
 	this->error = error;
 	this->confidence = confidence;
 	this->W = 10;
-	this->estimated_error=0;
+	this->estimated_error=-1.;
 }
 
 SamplingBasedAverager::SamplingBasedAverager(double error, double confidence,
@@ -32,7 +32,7 @@ SamplingBasedAverager::SamplingBasedAverager(double error, double confidence,
 	this->error = error;
 	this->confidence = confidence;
 	this->W = W;
-	this->estimated_error=0;
+	this->estimated_error=-1.;
 }
 
 double SamplingBasedAverager::randomSampling(Sampler& s) {

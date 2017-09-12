@@ -77,7 +77,19 @@ public class SamplingBasedAveragerEx {
 				System.out.print(String.format("%.3f",sampleErrors.get(i)) + " ");
 			}
 		}
+		/*
 		if(sampleErrors.size()>1)
 		System.out.print(String.format("%.3f",SBA.getEstimatedError()));
+		System.out.println();
+		
+		for (int i = 0; i < sampleErrors.size(); i++) {
+			
+				System.out.println(String.format("%.3f",sampleErrors.get(i)));
+			
+		}
+		
+		System.out.println(String.format("%.3f",SBA.getEstimatedError()));
+		*/
+		
 	}
 }
